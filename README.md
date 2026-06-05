@@ -59,10 +59,10 @@ cd build
 cmake ..
 cmake --build .
 
-Run
+## Run
 ./KeyValueStoreEngine
 
-Project Structure
+## Project Structure
 src/
 ├── server/        # TCP server implementation
 ├── parser/        # RESP command parsing
@@ -71,12 +71,12 @@ src/
 ├── commands/      # Command implementations
 ├── main.cpp
 
-Design Goals
+## Design Goals
 High throughput under concurrent load
 Low-latency in-memory operations
 Modular command-based architecture
 Redis-inspired protocol design (custom implementation)
-Notes
+## Notes
 
 This project focuses on systems programming concepts such as:
 
@@ -85,6 +85,6 @@ Memory-efficient data structures
 Concurrency handling
 Persistence mechanisms
 
-License
+## License
 
 This project is intended for educational and portfolio purposes.
