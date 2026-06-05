@@ -59,8 +59,12 @@ cd build
 cmake ..
 cmake --build .
 
+---
+
 ## Run
 ./KeyValueStoreEngine
+
+---
 
 ## Project Structure
 src/
@@ -71,11 +75,16 @@ src/
 ├── commands/      # Command implementations
 ├── main.cpp
 
+---
+
 ## Design Goals
 High throughput under concurrent load
 Low-latency in-memory operations
 Modular command-based architecture
 Redis-inspired protocol design (custom implementation)
+
+---
+
 ## Notes
 
 This project focuses on systems programming concepts such as:
@@ -84,6 +93,8 @@ Event-driven server design
 Memory-efficient data structures
 Concurrency handling
 Persistence mechanisms
+
+---
 
 ## License
 
