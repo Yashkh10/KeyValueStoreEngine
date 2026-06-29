@@ -8,5 +8,5 @@ private:
 
 public:
     GetCommand(const std::string& key);
-    std::string execute(StorageEngine& storage) override;
+    std::string execute(CommandContext& ctx) override;
 };

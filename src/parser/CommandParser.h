@@ -2,15 +2,13 @@
 
 #include <string>
 #include <vector>
-
 #include "../types/CommandData.h"
 
 class CommandParser {
 public:
-    CommandData parse(const std::string& input);
+    static CommandData parse(const std::string& input);
 
 private:
-    std::vector<std::string> splitCommand(const std::string& input);
-
-    std::string toLower(std::string str);
+    static std::vector<std::string> splitCommand(const std::string& input);
+    static std::string toLower(std::string str);
 };

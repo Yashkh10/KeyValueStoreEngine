@@ -1,5 +1,5 @@
 #include "QuitCommand.h"
 
-std::string QuitCommand::execute(StorageEngine& storage) {
+std::string QuitCommand::execute(CommandContext& ctx) {
     return "Bye";
 }

@@ -1,5 +1,5 @@
 #include "InvalidCommand.h"
 
-std::string InvalidCommand::execute(StorageEngine& storage) {
+std::string InvalidCommand::execute(CommandContext& ctx) {
     return "Invalid command";
 }

@@ -15,23 +15,33 @@ StorageEngine::~StorageEngine(){
 }
 
 void StorageEngine::set(const std::string& key,const std::string& value){
-    std::lock_guard<std::mutex> lock(mtx);
-    uint64_t version = nextVersion++;
-
-    store[key] = {value,{},false,version};
-    persistence.append("set " +key+" "+ value);
+    uint64_t version;
+    {
+        std::lock_guard<std::mutex> lock(mtx);
+        version = nextVersion++;
+        store[key] ={value,{},false,version};
+    }
+    persistence.append("set " + key + " " + value);
 }
 
 void StorageEngine::setWithTTL(const std::string& key,const std::string& value,int ttlSeconds){
-    std::lock_guard<std::mutex> lock(mtx);
-    auto expiry = std::chrono::steady_clock::now() + std::chrono::seconds(ttlSeconds);
-    uint64_t version = nextVersion++;
+    long long expiryMillis;
 
-    store[key] = {value,expiry,true,version};
-    minHeap.push({expiry,key,version});
+    {
+        std::lock_guard<std::mutex> lock(mtx);
 
-    auto expirySystem =std::chrono::system_clock::now()+ std::chrono::seconds(ttlSeconds);
-    auto expiryMillis = std::chrono::duration_cast<std::chrono::milliseconds>(expirySystem.time_since_epoch()).count();
+        auto expiry = std::chrono::steady_clock::now() + std::chrono::seconds(ttlSeconds);
+        uint64_t version = nextVersion++;
+
+        store[key] = {value,expiry,true,version};
+        minHeap.push({expiry,key,version});
+
+        auto expirySystem =std::chrono::system_clock::now()+ std::chrono::seconds(ttlSeconds);
+        expiryMillis = std::chrono::duration_cast<std::chrono::milliseconds>(
+            expirySystem.time_since_epoch()
+        ).count();
+    }
+
     persistence.append("setex "+ key+ " "+ std::to_string(expiryMillis)+ " "+ value);
     cv.notify_one();
 }
@@ -51,15 +61,23 @@ std::string StorageEngine::get(const std::string& key){
 }
 
 bool StorageEngine::del(const std::string& key){
-    std::lock_guard<std::mutex> lock(mtx);
-    auto it = store.find(key);
-    if(it == store.end()){
-        return false;
-    }
-    store.erase(it);
-    persistence.append("del " + key);
+    bool deleted = false;
 
-    return true;
+    {
+        std::lock_guard<std::mutex> lock(mtx);
+
+        auto it = store.find(key);
+        if(it != store.end()){
+            store.erase(it);
+            deleted = true;
+        }
+    }
+
+    if(deleted){
+        persistence.append("del " + key);
+    }
+
+    return deleted;
 }
 
 int StorageEngine::ttl(const std::string& key){

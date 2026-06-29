@@ -8,11 +8,7 @@ private:
     std::string key;
 
 public:
-    explicit TTLCommand(
-        const std::string& key
-    );
+    explicit TTLCommand(const std::string& key);
 
-    std::string execute(
-        StorageEngine& storage
-    ) override;
+    std::string execute(CommandContext& ctx) override;
 };

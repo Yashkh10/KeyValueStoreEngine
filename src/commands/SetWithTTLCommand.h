@@ -11,5 +11,5 @@ private:
 
 public:
     SetWithTTLCommand(const std::string& key,const std::string& value,int ttlSeconds);
-    std::string execute(StorageEngine& storage) override;
+    std::string execute(CommandContext& ctx) override;
 };

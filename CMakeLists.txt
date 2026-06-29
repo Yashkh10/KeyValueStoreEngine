@@ -23,7 +23,7 @@ add_executable(KeyValueStoreEngine
     # Protocol
     src/protocol/RESPSerializer.cpp
 
-    # Commands
+    # Commands (KV)
     src/commands/SetCommand.cpp
     src/commands/SetWithTTLCommand.cpp
     src/commands/GetCommand.cpp
@@ -31,7 +31,19 @@ add_executable(KeyValueStoreEngine
     src/commands/TTLCommand.cpp
     src/commands/QuitCommand.cpp
     src/commands/InvalidCommand.cpp
+
+    # Factory
     src/commands/CommandFactory.cpp
+
+    # =========================
+    # PUBSUB (ADD THIS)
+    # =========================
+    src/commands/pubsub/SubscribeCommand.cpp
+    src/commands/pubsub/PublishCommand.cpp
+    src/commands/pubsub/UnsubscribeCommand.cpp
+
+    # PubSub core system
+    src/pubsub/PubSubManager.cpp
 )
 
 # Windows socket library

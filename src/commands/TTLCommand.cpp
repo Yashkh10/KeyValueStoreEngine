@@ -2,8 +2,6 @@
 
 TTLCommand::TTLCommand(const std::string& key): key(key){}
 
-std::string TTLCommand::execute(StorageEngine& storage){
-    return std::to_string(
-        storage.ttl(key)
-    );
+std::string TTLCommand::execute(CommandContext& ctx){
+    return std::to_string(ctx.storage.ttl(key));
 }

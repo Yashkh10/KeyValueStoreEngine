@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ICommand.h"
+#include <string>
 
 class SetCommand : public ICommand {
 private:
@@ -9,5 +10,5 @@ private:
 
 public:
     SetCommand(const std::string& key, const std::string& value);
-    std::string execute(StorageEngine& storage) override;
+    std::string execute(CommandContext& ctx) override;
 };

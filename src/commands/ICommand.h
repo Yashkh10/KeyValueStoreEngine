@@ -1,10 +1,10 @@
 #pragma once
 
 #include <string>
-#include "../storage/StorageEngine.h"
+#include "../server/CommandContext.h"
 
 class ICommand {
 public:
-    virtual std::string execute(StorageEngine& storage) = 0;
+    virtual std::string execute(CommandContext& ctx) = 0;
     virtual ~ICommand() = default;
 };

@@ -1,21 +1,33 @@
 #pragma once
 
 #include <winsock2.h>
-#include <ws2tcpip.h>
+#include <vector>
+#include <string>
 
 #include "../storage/StorageEngine.h"
-#include "../parser/CommandParser.h"
+#include "../pubsub/PubSubManager.h"
 #include "../commands/CommandFactory.h"
-
-#pragma comment(lib, "Ws2_32.lib")
+#include "../parser/CommandParser.h"
 
 class Server {
 private:
     int port;
     SOCKET serverSocket;
+
     StorageEngine storage;
-    CommandParser parser;
+    PubSubManager pubsub;
     CommandFactory factory;
+    CommandParser parser;
+
+    std::vector<SOCKET> clients;
+    std::vector<std::string> buffers;
+
+private:
+    void handleNewClient();
+    void handleClientData(size_t index);
+    void disconnectClient(size_t index);
+
+    void sendResponse(SOCKET client, const std::string& raw);
 
 public:
     Server(int port);
